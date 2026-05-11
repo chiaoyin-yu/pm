@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>游喬茵 Sylvia Yu — Project Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1612;
+    --paper: #f5f0e8;
+    --accent: #c8602a;
+    --accent2: #2a5c8c;
+    --muted: #7a7267;
+    --rule: #d4ccc0;
+    --highlight: #e8dfc8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* Grain texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(245,240,232,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-logo {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  #home {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 3rem 6rem 4rem;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.8rem;
+  }
+  .hero-name {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: clamp(3rem, 5.5vw, 5.5rem);
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-title {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+    color: var(--muted);
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+    font-style: italic;
+  }
+  .hero-desc {
+    max-width: 460px;
+    font-size: 1.0rem;
+    line-height: 1.9;
+    color: #3d3730;
+    margin-bottom: 3rem;
+  }
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 3rem;
+  }
+  .tag {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.9rem;
+    border: 1px solid var(--rule);
+    color: var(--muted);
+    border-radius: 2px;
+  }
+  .hero-cta { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+  .btn-ghost {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { background: var(--ink); color: var(--paper); }
+
+  .hero-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem;
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    top: 15%; right: 10%;
+    width: 55%;
+    height: 70%;
+    background: linear-gradient(135deg, #e8dfc8 0%, #d4cabb 100%);
+    border-radius: 4px;
+    z-index: 0;
+  }
+  .stats-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    max-width: 340px;
+  }
+  .stat-card {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 1.8rem 1.5rem;
+    border-radius: 3px;
+    box-shadow: 4px 4px 0 var(--rule);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .stat-card:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--rule); }
+  .stat-number {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 2.8rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .stat-label {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .stat-card.wide {
+    grid-column: 1 / -1;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .stat-card.wide .stat-label { color: var(--highlight); }
+  .stat-card.wide .stat-detail {
+    font-size: 0.85rem;
+    color: #c8c0b0;
+    margin-top: 0.8rem;
+    line-height: 1.5;
+  }
+
+  /* SECTION COMMONS */
+  section { padding: 7rem 4rem; }
+  .section-label {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    max-width: 60px;
+  }
+  .section-heading {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+  }
+  .section-heading em { font-style: italic; color: var(--accent); }
+  .section-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 550px;
+    margin-bottom: 4rem;
+  }
+  hr.rule { border: none; border-top: 1px solid var(--rule); margin: 0; }
+
+  /* ABOUT */
+  #about { background: white; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .about-body { font-size: 1.0rem; line-height: 1.95; color: #3d3730; }
+  .about-body p { margin-bottom: 1.4rem; }
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--accent2);
+    font-size: 1.05rem;
+    background: #f0f4f8;
+    border-radius: 0 3px 3px 0;
+  }
+  .about-sidebar {}
+  .sidebar-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    border-radius: 3px;
+    margin-bottom: 1.5rem;
+  }
+  .sidebar-card h4 {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .sidebar-pill-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .pill {
+    font-size: 0.82rem;
+    padding: 0.3rem 0.8rem;
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 100px;
+    color: #3d3730;
+  }
+
+  /* PM PROCESS */
+  #process { background: var(--ink); color: var(--paper); }
+  #process .section-label { color: var(--accent); }
+  #process .section-label::after { background: #3d3730; }
+  #process .section-heading { color: var(--paper); }
+  #process .section-sub { color: #b0a898; }
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: #2a2520;
+  }
+  .process-step {
+    background: #1a1612;
+    padding: 2.5rem;
+    position: relative;
+    transition: background 0.25s;
+  }
+  .process-step:hover { background: #242018; }
+  .step-num {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 4rem;
+    color: #2a2520;
+    line-height: 1;
+    margin-bottom: 1rem;
+    transition: color 0.25s;
+  }
+  .process-step:hover .step-num { color: var(--accent); }
+  .step-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+  .step-title {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.15rem;
+    color: var(--paper);
+    margin-bottom: 0.8rem;
+  }
+  .step-desc { font-size: 0.88rem; color: #9a9088; line-height: 1.7; }
+
+  /* CASE STUDIES */
+  #case-study { background: var(--paper); }
+  .case-list { display: flex; flex-direction: column; gap: 5rem; }
+  .case-item {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 4rem;
+    padding-bottom: 5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .case-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .case-meta {}
+  .case-num {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 5rem;
+    color: var(--rule);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+  .case-type-tags { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.5rem; }
+  .case-type {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .case-outcome-box {
+    background: var(--highlight);
+    border: 1px solid var(--rule);
+    padding: 1.2rem;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    color: #3d3730;
+    line-height: 1.6;
+  }
+  .case-outcome-box strong {
+    display: block;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 0.5rem;
+  }
+  .case-content {}
+  .case-title {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.9rem;
+    line-height: 1.2;
+    margin-bottom: 1.2rem;
+  }
+  .case-intro { font-size: 1rem; color: #3d3730; line-height: 1.85; margin-bottom: 2rem; }
+  .case-section { margin-bottom: 2rem; }
+  .case-section-title {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .case-section ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .case-section ul li {
+    font-size: 0.92rem;
+    color: #3d3730;
+    line-height: 1.7;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+  .case-section ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.8rem;
+  }
+  .case-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    text-decoration: none;
+    margin-top: 1rem;
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--accent2);
+    transition: color 0.2s;
+  }
+  .case-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* EXPERIENCE */
+  #experience { background: white; }
+  .exp-list { display: flex; flex-direction: column; gap: 0; }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 3rem;
+    padding: 3rem 0;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.2s;
+  }
+  .exp-item:first-child { padding-top: 0; }
+  .exp-meta {}
+  .exp-period {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .exp-company {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .exp-content {}
+  .exp-role {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+  .exp-desc {
+    font-size: 0.92rem;
+    color: #3d3730;
+    line-height: 1.8;
+  }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.8rem; }
+  .exp-bullets li {
+    font-size: 0.9rem;
+    color: #3d3730;
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.65;
+  }
+  .exp-bullets li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  /* SKILLS */
+  #skills { background: var(--paper); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: var(--rule);
+  }
+  .skill-card {
+    background: white;
+    padding: 2.5rem;
+    transition: background 0.2s;
+  }
+  .skill-card:hover { background: var(--highlight); }
+  .skill-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .skill-cat {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .skill-name {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+  .skill-items {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* CONTACT / FOOTER */
+  #contact {
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+    padding: 8rem 4rem;
+  }
+  #contact .section-label { justify-content: center; color: var(--accent); }
+  #contact .section-label::after { display: none; }
+  #contact .section-heading { color: var(--paper); font-size: clamp(2.5rem, 4vw, 3.5rem); }
+  .contact-sub {
+    font-size: 1rem;
+    color: #9a9088;
+    max-width: 480px;
+    margin: 1.5rem auto 3.5rem;
+    line-height: 1.8;
+  }
+  .contact-email {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.4rem;
+    color: var(--paper);
+    text-decoration: none;
+    border-bottom: 1px solid #3d3730;
+    padding-bottom: 4px;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+    margin-bottom: 3rem;
+  }
+  .contact-email:hover { color: var(--accent); border-color: var(--accent); }
+  .footer-info {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #5a5248;
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid #2a2520;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.7s ease both; }
+  .delay-1 { animation-delay: 0.15s; }
+  .delay-2 { animation-delay: 0.3s; }
+  .delay-3 { animation-delay: 0.45s; }
+  .delay-4 { animation-delay: 0.6s; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    #home { grid-template-columns: 1fr; min-height: auto; }
+    .hero-right { display: none; }
+    .hero-left { padding: 6rem 1.5rem 4rem; }
+    section { padding: 5rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .process-steps { grid-template-columns: 1fr; }
+    .case-item { grid-template-columns: 1fr; gap: 2rem; }
+    .case-num { font-size: 3rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">Sylvia Yu</a>
+  <ul class="nav-links">
+    <li><a href="#about">關於</a></li>
+    <li><a href="#case-study">案例</a></li>
+    <li><a href="#experience">經歷</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-left">
+    <div class="hero-eyebrow fade-up">Project Manager · Taiwan</div>
+    <h1 class="hero-name fade-up delay-1">游喬茵<br><em>Sylvia</em> Yu</h1>
+    <p class="hero-title fade-up delay-2">從需求訪談到專案落地</p>
+    <p class="hero-desc fade-up delay-3">
+      心理學背景出身的 Project Manager。我在客戶需求、商業目標與工程執行之間建立清晰橋樑——<br>
+      把模糊的需求定義成可執行的規格，把研究洞察轉化為推動專案前進的決策依據。
+    </p>
+    <div class="hero-tags fade-up delay-4">
+      <span class="tag">需求定義</span>
+      <span class="tag">專案規劃</span>
+      <span class="tag">跨部門協作</span>
+      <span class="tag">時程管理</span>
+      <span class="tag">利害關係人管理</span>
+    </div>
+    <div class="hero-cta fade-up delay-4">
+      <a href="#case-study" class="btn-primary">查看產品案例</a>
+      <a href="mailto:banayuyin@gmail.com" class="btn-ghost">✉ 聯絡我</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">15+</div>
+        <div class="stat-label">網站<br>產品專案</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">14+</div>
+        <div class="stat-label">市場<br>研究專案</div>
+      </div>
+      <div class="stat-card wide">
+        <div class="stat-number">3</div>
+        <div class="stat-label">跨域背景</div>
+        <div class="stat-detail">心理學 × 質性研究 × 網頁產品管理<br>讓我從使用者行為到產品執行，每個環節都能自己推進</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">關於我</div>
+  <div class="about-grid">
+    <div>
+      <h2 class="section-heading">理解人，<br>也懂得<em>推進事</em>。</h2>
+      <div class="about-body">
+        <p>我是具備心理學、市場研究與網頁專案管理背景的 Project Manager。大學期間修習「消費者心理學」，讓我習慣從使用者行為、認知負荷與決策焦慮出發理解專案需求——而不只是從功能清單出發。</p>
+        <p>在市場研究公司，我學會了如何把真實的使用者語言翻譯成對業務有意義的洞察；在網頁專案管理的工作中，我負責與客戶討論需求、將需求轉譯給工程團隊，並追蹤到專案上線。</p>
+        <p>這段跨域經歷讓我成為一個<strong>真正能銜接研究與執行的 Project Manager</strong>——知道怎麼問對問題，也知道怎麼把答案推進到交付。</p>
+        <blockquote>
+          「最好的專案決策，來自對人的深刻理解，加上對執行現實的清醒認識。」
+        </blockquote>
+        <p>目前我正在尋找 Project Manager 的機會，期待在一個重視使用者思維、注重跨部門協作的團隊中繼續成長。</p>
+      </div>
+    </div>
+    <div class="about-sidebar">
+      <div class="sidebar-card">
+        <h4>核心能力</h4>
+        <div class="sidebar-pill-list">
+          <span class="pill">需求訪談</span>
+          <span class="pill">專案規格定義</span>
+          <span class="pill">使用者研究</span>
+          <span class="pill">資訊架構</span>
+          <span class="pill">跨部門溝通</span>
+          <span class="pill">質性分析</span>
+          <span class="pill">利害關係人管理</span>
+          <span class="pill">時程管理</span>
+          <span class="pill">風險控管</span>
+        </div>
+      </div>
+      <div class="sidebar-card">
+        <h4>學經歷背景</h4>
+        <div class="sidebar-pill-list">
+          <span class="pill">心理學</span>
+          <span class="pill">消費者行為研究</span>
+          <span class="pill">網頁專案管理</span>
+          <span class="pill">跨國工作經驗</span>
+          <span class="pill">政府標案執行</span>
+        </div>
+      </div>
+      <div class="sidebar-card">
+        <h4>產業接觸</h4>
+        <div class="sidebar-pill-list">
+          <span class="pill">金融科技</span>
+          <span class="pill">醫療軟體</span>
+          <span class="pill">政府機關</span>
+          <span class="pill">消費性電子</span>
+          <span class="pill">電商平台</span>
+          <span class="pill">樂器品牌</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<hr class="rule">
+
+<!-- CASE STUDIES -->
+<section id="case-study">
+  <div class="section-label">產品案例</div>
+  <h2 class="section-heading">把洞察，<br>推進到<em>專案落地</em>。</h2>
+  <p class="section-sub">以下案例展示我如何從問題定義、使用者研究到需求協調，協助團隊做出更有依據的方向並推動交付。</p>
+
+  <div class="case-list">
+
+    <!-- CASE 01 -->
+    <div class="case-item">
+      <div class="case-meta">
+        <div class="case-num">01</div>
+        <div class="case-type-tags">
+          <span class="case-type">Government Project</span>
+          <span class="case-type">Website Migration</span>
+          <span class="case-type">Accessibility Compliance</span>
+        </div>
+        <div class="case-outcome-box">
+          <strong>Project Impact</strong>
+          全台台電各區分處官網成功從舊版遷移至新版，通過無障礙 A 等級標章認證，並正式上線營運。
+        </div>
+      </div>
+      <div class="case-content">
+        <h3 class="case-title">台灣電力公司區營業處網站重建<br>——從標案到全台分處官網上線</h3>
+        <p class="case-intro">這是一個從政府標案期間就開始深度介入的專案。台電各區分處原有的舊版網站系統老舊，需要全面遷移至新版共構平台。我從需求釐清、內容轉移、頁面設計規劃，到與客戶反覆確認後台流程與操作需求，全程推進直到正式上線。</p>
+        <a href="https://branch.taipower.com.tw/" target="_blank" class="case-link">查看上線成果 → branch.taipower.com.tw</a>
+
+        <div class="case-section">
+          <div class="case-section-title">專案角色：標案銜接 · 需求協調 · 遷移執行</div>
+          <ul>
+            <li>從標案期間即介入，提前理解政府客戶的需求框架與法規限制（政府網站營運規範、無障礙標章）</li>
+            <li>主導舊版網站內容盤點與轉移計畫，確保資料完整性與新版架構的對應邏輯</li>
+            <li>協調客戶端各區分處的頁面設計需求，整合多版型差異並統一後台管理邏輯</li>
+            <li>反覆與客戶對談，確認後台操作流程符合各分處人員的實際使用情境</li>
+            <li>管理時程與交付節點，確保專案在標案期限內完成上線並通過驗收</li>
+          </ul>
+        </div>
+
+        <div class="case-section">
+          <div class="case-section-title">專案挑戰與解法</div>
+          <ul>
+            <li>多區分處同步推進、需求各異：建立統一的需求收集與確認機制，避免版本混亂</li>
+            <li>政府無障礙規範嚴格：全程確認頁面符合無障礙 A 等級標準，最終取得標章認證</li>
+            <li>後台需求複雜（選單自訂、多版型、共構平台架構）：拆解需求優先順序，與工程師確認每個模組的開發邊界</li>
+            <li>客戶更新習慣差異大：設計符合非技術人員操作的後台流程，降低上線後的維護成本</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 02 -->
+    <div class="case-item">
+      <div class="case-meta">
+        <div class="case-num">02</div>
+        <div class="case-type-tags">
+          <span class="case-type">Project Management</span>
+          <span class="case-type">Stakeholder Mgmt</span>
+          <span class="case-type">Information Architecture</span>
+        </div>
+        <div class="case-outcome-box">
+          <strong>Project Impact</strong>
+          全球官網成功上線，導覽邏輯從品牌內部分類改為使用者搜尋路徑，視覺符合高端品牌定位。
+        </div>
+      </div>
+      <div class="case-content">
+        <h3 class="case-title">MAPEX 全球官網重整<br>——從需求訪談到專案上線</h3>
+        <p class="case-intro">MAPEX 是 KHS 集團旗下的全球鼓具品牌。原有網站架構老舊，無法支援品牌的高端定位與複雜產品線。這個專案的挑戰在於：客戶對「想要什麼」的描述非常模糊——我的工作是把它轉化成可以執行的專案規格。</p>
+        <a href="https://www.mapexdrums.com/" target="_blank" class="case-link">查看上線成果 → mapexdrums.com</a>
+
+        <div class="case-section">
+          <div class="case-section-title">專案角色：需求翻譯 · 架構設計 · 跨團隊協調</div>
+          <ul>
+            <li>主導需求訪談，將客戶描述的「更時尚、更直覺的產品路徑」拆解成具體的功能規格與頁面架構</li>
+            <li>以「使用者如何找到對的鼓組」重新設計導覽邏輯，而非依品牌內部的 SKU 編號分類</li>
+            <li>簡化導覽層級，降低使用者在多產品線之間的認知負荷（Cognitive Load）</li>
+            <li>協調客戶端、設計師與後端工程師，確認模組選型、頁面流程與開發優先順序</li>
+            <li>全程管理交付物與時程，確保需求在傳遞過程中不失真</li>
+          </ul>
+        </div>
+
+        <div class="case-section">
+          <div class="case-section-title">專案決策亮點</div>
+          <ul>
+            <li>打破客戶原有「依產品系列分頁」的慣性，改為依使用情境（初學 / 進階 / 專業）切入，大幅降低選擇障礙</li>
+            <li>建立可擴展的內容結構，支援後續多地區、多語系的內容增加，避免後期大改成本</li>
+            <li>視覺方向對齊品牌高端定位，強化第一印象的信任感——這是可以量化的 UX 目標，不只是美感偏好</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 03 -->
+    <div class="case-item">
+      <div class="case-meta">
+        <div class="case-num">03</div>
+        <div class="case-type-tags">
+          <span class="case-type">Research Project</span>
+          <span class="case-type">Consumer Research</span>
+          <span class="case-type">Stakeholder Briefing</span>
+        </div>
+        <div class="case-outcome-box">
+          <strong>Project Impact</strong>
+          釐清三個不同使用者族群的決策模式差異，直接影響客戶的產品定位、行銷溝通與 SKU 規劃方向。
+        </div>
+      </div>
+      <div class="case-content">
+        <h3 class="case-title">烹飪家電消費者行為研究<br>——化解選擇過剩的決策焦慮</h3>
+        <p class="case-intro">客戶面臨的核心問題是：產品線越做越豐富，轉換率卻沒有相應提升。使用者在選擇時出現明顯的決策焦慮，但不確定痛點在哪一個環節。我設計了三階段研究，找出問題根源，並為後續策略提供具體方向。</p>
+
+        <div class="case-section">
+          <div class="case-section-title">專案角色：問題定義 → 研究設計 → 成果簡報</div>
+          <ul>
+            <li>與業務端對齊核心問題：「為什麼功能更多，轉換率沒有提升？」</li>
+            <li>設計三階段研究流程（分組招募 → 訪前 Homework → 深度訪談），確保資料反映真實行為而非臨場建構</li>
+            <li>依年齡、有無小孩、下廚頻率、購買意願分層招募，確保樣本能捕捉族群差異</li>
+            <li>將訪談洞察轉化為策略建議：每個族群需要不同的資訊結構與信任建立方式</li>
+          </ul>
+        </div>
+
+        <div class="case-section">
+          <div class="case-section-title">Key Findings → 策略建議</div>
+          <ul>
+            <li>選項過多是根本問題，使用者需要清楚的比較框架，而非更多功能列表</li>
+            <li>信任感的建立優先於功能數量——口碑、品牌熟悉度與資訊一致性才是關鍵轉換因子</li>
+            <li>「有孩子 / 下廚頻率高」族群與「單身 / 下廚少」族群的決策邏輯完全不同，單一溝通策略無效</li>
+            <li><strong>建議方向：</strong>以使用情境重組導覽，取代以功能規格為主的選擇頁面</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<hr class="rule">
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">工作經歷</div>
+  <h2 class="section-heading">跨域累積，<br><em>每段都在練習</em>推進專案。</h2>
+  <p class="section-sub">從市場研究到專案管理，每個角色都讓我更接近「真正的 Project Manager」。</p>
+
+  <div class="exp-list">
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-period">2021 — 2023</div>
+        <div class="exp-company">魁亨科技</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">網頁專案管理</div>
+        <ul class="exp-bullets">
+          <li>完成 15+ 網站專案，涵蓋政府標案、品牌官網、資料庫後台，全程負責從需求到上線的專案流程</li>
+          <li>主導客戶需求訪談，將模糊需求轉化為清楚的功能規格與頁面邏輯，擔任客戶與工程師之間的溝通橋樑</li>
+          <li>協作確認功能邏輯、資料結構與開發優先順序，確保有限資源被分配在最有價值的交付項目上</li>
+          <li>公司具備 ISO 27001 資訊安全管理系統認證，專案執行過程中遵循資安規範，熟悉資安要求與政府標案對應流程</li>
+          <li>客戶：台電、台灣經濟研究院、新北市政府、保險安定基金、功學社（MAPEX 全球官網）等</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-period">2020 — 2021</div>
+        <div class="exp-company">亞地市場研究顧問</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">督導研究員 / 消費者洞察</div>
+        <ul class="exp-bullets">
+          <li>執行 14+ 跨產業研究專案（醫療軟體、食品、金融、消費性電子、醫藥），從研究設計到洞察產出全程負責</li>
+          <li>設計招募條件、訪談大綱與研究工具，訓練「如何定義正確的研究問題」</li>
+          <li>帶領實習生與跨部門協作，培養研究執行與小型團隊管理能力</li>
+          <li>學會把使用者的語言轉化成業務能理解、行動的洞察報告</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-period">2023 — 2026</div>
+        <div class="exp-company">Australia</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">國際工作經驗 / 跨文化觀察</div>
+        <ul class="exp-bullets">
+          <li>全英文工作環境，能以英文進行產品溝通、問題解決與跨文化協作</li>
+          <li>從事行政與電商相關工作，負責訂單流程優化、客戶溝通與資料管理，培養流程思維</li>
+          <li>在實際服務情境中觀察不同文化背景的顧客行為與需求，累積跨文化的使用者理解</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">能力組合</div>
+  <h2 class="section-heading">Project Manager<br><em>所需的每一層能力</em>。</h2>
+  <p class="section-sub">不只是一種角色，而是一個能在研究、溝通、規劃、執行之間自由切換的人。</p>
+
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">🎯</div>
+      <div class="skill-cat">Project Strategy</div>
+      <div class="skill-name">專案策略與定義</div>
+      <div class="skill-items">需求訪談、問題定義、規格轉譯、範疇管理、資訊架構設計、使用情境分析</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">👥</div>
+      <div class="skill-cat">User Research</div>
+      <div class="skill-name">使用者研究</div>
+      <div class="skill-items">深度訪談、焦點團體（FGI）、質性分析、消費者行為研究、研究問題設計、洞察轉化</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🤝</div>
+      <div class="skill-cat">Stakeholder Management</div>
+      <div class="skill-name">跨部門協作</div>
+      <div class="skill-items">利害關係人溝通、需求對齊、客戶 / 工程 / 設計三方橋接、政府標案執行、跨文化協作</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🛠️</div>
+      <div class="skill-cat">Tools & Technical</div>
+      <div class="skill-name">工具與基礎技術</div>
+      <div class="skill-items">Miro、Notion、Figma（閱讀）、Google Analytics、SPSS、HTML/CSS 基礎、Python 基礎、時程管理工具</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">聯絡</div>
+  <h2 class="section-heading">一起推進<br>更好的專案。</h2>
+  <p class="contact-sub">
+    我正在尋找 Project Manager 的機會。如果你的團隊重視使用者思維、跨部門協作與用研究驅動決策，歡迎聯絡我。
+  </p>
+  <a href="mailto:banayuyin@gmail.com" class="contact-email">banayuyin@gmail.com</a>
+  <br>
+  <div class="hero-cta" style="justify-content:center; margin-top: 1rem;">
+    <a href="mailto:banayuyin@gmail.com" class="btn-primary" style="background:var(--accent)">✉ 寄信給我</a>
+  </div>
+  <div class="footer-info">
+    游喬茵 · Sylvia Yu &nbsp;·&nbsp; Project Manager &nbsp;·&nbsp; Psychology × Research × Project Management
+  </div>
+</section>
+
+<script>
+// Scroll-triggered fade-in for sections
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(el => {
+    if (el.isIntersecting) {
+      el.target.style.opacity = '1';
+      el.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('section > *:not(.process-steps)').forEach(el => {
+  if (!el.classList.contains('fade-up')) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.65s ease, transform 0.65s ease';
+    observer.observe(el);
+  }
+});
+
+document.querySelectorAll('.case-item, .exp-item, .skill-card, .stat-card, .process-step').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
