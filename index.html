@@ -644,6 +644,41 @@
     .nav-right { flex-direction: column; align-items: flex-end; gap: 0.55rem; }
     .nav-links { gap: 0.8rem; }
   }
+
+  /* VIBE CODING TABS */
+  .vc-tabs { margin-top: 2rem; }
+  .vc-tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--rule);
+    margin-bottom: 0;
+  }
+  .vc-tab-btn {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .vc-tab-btn:hover { color: var(--ink); }
+  .vc-tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 500;
+  }
+  .vc-tab-panel { display: none; }
+  .vc-tab-panel.active { display: block; }
+
+  @media (max-width: 620px) {
+    .vc-tab-btn { padding: 0.65rem 0.9rem; font-size: 0.65rem; }
+  }
 </style>
 </head>
 <body>
@@ -866,7 +901,7 @@
 </div>
 </div>
 </div>
-<!-- CASE 04 -->
+<!-- CASE 04: VIBE CODING -->
 <div class="case-item">
 <div class="case-meta">
 <div class="case-num">04</div>
@@ -875,35 +910,63 @@
 <span class="case-type">Product Design</span>
 <span class="case-type">UX Flow</span>
 </div>
-<div class="case-outcome-box" data-en-after="Went from problem definition to a fully working interactive prototype in a single session — demonstrating how product thinking drives AI-assisted building." data-zh-after="從問題定義到完整互動原型一氣呵成，展示產品思維如何驅動 AI 輔助建構。"><strong data-en="Project Highlight" data-zh="專案亮點">Project Highlight</strong> Went from problem definition to a fully working interactive prototype in a single session — demonstrating how product thinking drives AI-assisted building.</div>
+<div class="case-outcome-box" data-en-after="Real problems I encountered, turned into working products — using AI as a build partner, driven by product thinking at every step." data-zh-after="從親身遭遇的真實問題出發，做成可運作的產品——以 AI 為建構夥伴，每一步都由產品思維驅動。"><strong data-en="What is Vibe Coding?" data-zh="什麼是 Vibe Coding？">What is Vibe Coding?</strong> Real problems I encountered, turned into working products — using AI as a build partner, driven by product thinking at every step.</div>
 </div>
 <div class="case-content">
-<h3 class="case-title" data-en="What's for Dinner — Solving Meal Decision Fatigue with Vibe Coding" data-zh="今天吃什麼 — 用 Vibe Coding 解決每天的吃飯決策疲勞">What's for Dinner — Solving Meal Decision Fatigue with Vibe Coding</h3>
-<p class="case-intro" data-en="&quot;What should we eat today?&quot; is a daily micro-friction moment that drains mental energy. I used vibe coding — prompting AI iteratively with product thinking — to go from a problem statement to a complete interactive prototype. This project demonstrates how I approach product ideation: defining the user problem first, mapping the core flow, then building to validate." data-zh="「今天要吃什麼？」是每天都會消耗心理能量的微摩擦時刻。我用 vibe coding 的方式，以有產品思維的 prompt 引導 AI 迭代，從問題定義一路做到完整互動原型。這個專案展示我如何進行產品發想：先定義使用者問題，再規劃核心流程，最後以建構原型來驗證。">"What should we eat today?" is a daily micro-friction moment that drains mental energy. I used vibe coding — prompting AI iteratively with product thinking — to go from a problem statement to a complete interactive prototype. This project demonstrates how I approach product ideation: defining the user problem first, mapping the core flow, then building to validate.</p>
-<div class="case-section">
-<div class="case-section-title" data-en="Role &amp; Approach" data-zh="角色與方法">Role &amp; Approach</div>
-<ul>
-<li data-en="Defined the core user problem: decision fatigue caused by open-ended daily meal choices" data-zh="定義核心使用者問題：無限制的飲食選擇造成的每日決策疲勞">Defined the core user problem: decision fatigue caused by open-ended daily meal choices</li>
-<li data-en="Designed the UX flow — onboarding, preference input, random suggestion, and confirmation — before writing any prompt" data-zh="在下任何 prompt 之前，先設計完整 UX 流程：引導頁、偏好輸入、隨機推薦、確認">Designed the UX flow — onboarding, preference input, random suggestion, and confirmation — before writing any prompt</li>
-<li data-en="Used AI as a build partner, iterating with structured prompts to generate the interactive prototype" data-zh="以 AI 作為建構夥伴，透過有結構的 prompt 迭代生成互動原型">Used AI as a build partner, iterating with structured prompts to generate the interactive prototype</li>
-<li data-en="Evaluated each generated screen against the original flow and steered direction when output drifted from intent" data-zh="以原始流程圖評估每個生成畫面，當輸出偏離設計意圖時主動修正方向">Evaluated each generated screen against the original flow and steered direction when output drifted from intent</li>
-</ul>
+<h3 class="case-title" data-en="Vibe Coding — Building Products<br><em>from Real Problems</em>" data-zh="Vibe Coding — 從真實問題<br><em>做出能用的產品</em>">Vibe Coding — Building Products<br/><em>from Real Problems</em></h3>
+<p class="case-intro" data-en="Vibe coding is not about writing code — it's about using AI as a build partner while keeping product thinking in the driver's seat. Every project here started from a personal pain point: define the problem, design the flow, prompt with intention, and steer the output." data-zh="Vibe coding 不是寫程式，而是以 AI 作為建構夥伴，讓產品思維始終掌舵。這裡的每個作品都從親身痛點出發：定義問題、設計流程、有意識地下 prompt，並在輸出偏離時主動修正方向。">Vibe coding is not about writing code — it's about using AI as a build partner while keeping product thinking in the driver's seat. Every project here started from a personal pain point: define the problem, design the flow, prompt with intention, and steer the output.</p>
+
+<!-- TABS -->
+<div class="vc-tabs">
+  <div class="vc-tab-bar">
+    <button class="vc-tab-btn active" data-tab="vc-dinner" data-en="Case 1 — Meal Decision Helper" data-zh="案例 1 — 今天吃什麼">Case 1 — Meal Decision Helper</button>
+    <button class="vc-tab-btn" data-tab="vc-coffee" data-en="Case 2 — Coffee Brewing Guide" data-zh="案例 2 — 咖啡沖泡指南">Case 2 — Coffee Brewing Guide</button>
+  </div>
+
+  <!-- TAB 1: DINNER -->
+  <div class="vc-tab-panel active" id="vc-dinner">
+    <div class="case-section" style="margin-top:2rem;">
+      <div class="case-section-title" data-en="What's for Dinner — Solving Meal Decision Fatigue" data-zh="今天吃什麼 — 化解每日飲食決策疲勞">What's for Dinner — Solving Meal Decision Fatigue</div>
+      <p style="font-size:0.92rem; color:#3d3730; line-height:1.85; margin-bottom:1.5rem;" data-en='"What should we eat today?" is a daily micro-friction moment that drains mental energy. I defined the user problem, designed the complete UX flow, then used vibe coding to go from concept to a working interactive prototype.' data-zh="「今天要吃什麼？」是每天都會消耗心理能量的微摩擦時刻。我定義使用者問題、設計完整 UX 流程，再用 vibe coding 從概念做到可互動的原型。">"What should we eat today?" is a daily micro-friction moment that drains mental energy. I defined the user problem, designed the complete UX flow, then used vibe coding to go from concept to a working interactive prototype.</p>
+      <ul>
+        <li data-en="Defined the core user problem: decision fatigue from open-ended daily meal choices" data-zh="定義核心使用者問題：無限制的飲食選擇造成的每日決策疲勞">Defined the core user problem: decision fatigue from open-ended daily meal choices</li>
+        <li data-en="Designed the full UX flow — onboarding, preference input, random suggestion, confirmation — before writing any prompt" data-zh="在下任何 prompt 之前，先設計完整 UX 流程：引導頁、偏好輸入、隨機推薦、確認">Designed the full UX flow — onboarding, preference input, random suggestion, confirmation — before writing any prompt</li>
+        <li data-en="Chose randomness as the UX mechanic: hands the decision to the app, removing the burden from the user entirely" data-zh="選擇「隨機」作為核心 UX 機制：把選擇的負擔交給 App，從根本解除使用者的決策壓力">Chose randomness as the UX mechanic: hands the decision to the app, removing the burden from the user entirely</li>
+        <li data-en="Designed preference settings as lightweight filters, not rigid rules — preserving spontaneity" data-zh="將偏好設定設計成輕量篩選而非硬性規則，保留使用上的隨機感與彈性">Designed preference settings as lightweight filters, not rigid rules — preserving spontaneity</li>
+      </ul>
+    </div>
+    <div class="case-section">
+      <div class="case-section-title" data-en="Interactive Prototype" data-zh="互動原型">Interactive Prototype</div>
+      <div style="border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; background: #EBEDF1;">
+        <iframe src="whats-for-dinner.html" width="100%" height="680" style="border: none; display: block;" title="What's for Dinner — Interactive Prototype"></iframe>
+      </div>
+      <p style="font-size: 0.78rem; color: var(--muted); margin-top: 0.6rem; font-style: italic;" data-en="Built with Claude Code — AI-assisted prototyping driven by product thinking." data-zh="以 Claude Code 建構——由產品思維驅動的 AI 輔助原型。">Built with Claude Code — AI-assisted prototyping driven by product thinking.</p>
+    </div>
+  </div>
+
+  <!-- TAB 2: COFFEE -->
+  <div class="vc-tab-panel" id="vc-coffee">
+    <div class="case-section" style="margin-top:2rem;">
+      <div class="case-section-title" data-en="World Coffee Master Guide — Turning a Travel Problem into a Product" data-zh="世界咖啡大師指南 — 把旅遊痛點做成產品">World Coffee Master Guide — Turning a Travel Problem into a Product</div>
+      <p style="font-size:0.92rem; color:#3d3730; line-height:1.85; margin-bottom:1.5rem;" data-en="After traveling to Colombia, I brought back a large collection of coffee — and immediately hit a problem: I had no idea how to brew each one properly. Every time before brewing I had to search the web for guidance. That repeated friction became the product brief." data-zh="從哥倫比亞旅遊回台灣後，我帶回了一大批咖啡豆——卻立刻遇到問題：完全不知道每一包該怎麼沖泡。每次沖泡前都要重新上網查，這個重複的摩擦成了這個產品的誕生理由。">After traveling to Colombia, I brought back a large collection of coffee — and immediately hit a problem: I had no idea how to brew each one properly. Every time before brewing I had to search the web for guidance. That repeated friction became the product brief.</p>
+      <ul>
+        <li data-en="Problem: coffee newcomers face 3 interdependent variables — origin, roast level, and brew method — with no clear decision path" data-zh="問題：咖啡新手面對產地、焙度、沖泡法三個相互關聯的變數，卻沒有清楚的決策路徑">Problem: coffee newcomers face 3 interdependent variables — origin, roast level, and brew method — with no clear decision path</li>
+        <li data-en="Designed a guided decision tree: Type → Region → Country → Roast Level → Brew Method, reducing cognitive load at each step" data-zh="設計引導式決策樹：類型 → 產區 → 產國 → 焙度 → 沖泡法，每一步都降低認知負擔">Designed a guided decision tree: Type → Region → Country → Roast Level → Brew Method, reducing cognitive load at each step</li>
+        <li data-en="Added ★ recommendation markers to highlight the best pairing combinations — reducing decision anxiety without removing user choice" data-zh="加入 ★ 推薦標示，凸顯最佳搭配組合——降低決策焦慮，同時保留使用者選擇空間">Added ★ recommendation markers to highlight the best pairing combinations — reducing decision anxiety without removing user choice</li>
+        <li data-en="Covers 6 major regions, 20+ producing countries, 6 roast levels, and 10 brew methods" data-zh="涵蓋 6 大產區、20+ 產國、6 種焙度、10 種沖泡法">Covers 6 major regions, 20+ producing countries, 6 roast levels, and 10 brew methods</li>
+      </ul>
+    </div>
+    <div class="case-section">
+      <div class="case-section-title" data-en="Live Product" data-zh="線上成果">Live Product</div>
+      <div style="border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; background: #f5f0e8;">
+        <iframe src="https://chiaoyin-yu.github.io/yinjoy_coffee/" width="100%" height="700" style="border: none; display: block;" title="World Coffee Master Guide"></iframe>
+      </div>
+      <p style="font-size: 0.78rem; color: var(--muted); margin-top: 0.6rem; font-style: italic;" data-en="Built with Claude Code — from a personal travel problem to a working product." data-zh="以 Claude Code 建構——從旅遊中的親身問題到可運作的產品。">Built with Claude Code — from a personal travel problem to a working product.</p>
+      <a class="case-link" href="https://chiaoyin-yu.github.io/yinjoy_coffee/" target="_blank" data-en="Open Full Site →" data-zh="開啟完整網站 →">Open Full Site →</a>
+    </div>
+  </div>
 </div>
-<div class="case-section">
-<div class="case-section-title" data-en="Key Decisions" data-zh="關鍵決策">Key Decisions</div>
-<ul>
-<li data-en="Kept the core action to a single tap — fewer steps, less friction, lower cognitive load" data-zh="將核心操作縮短到單次點擊——減少步驟、降低摩擦、減輕認知負荷">Kept the core action to a single tap — fewer steps, less friction, lower cognitive load</li>
-<li data-en="Chose randomness as the UX mechanic: hands the decision to the app, removing the burden from the user entirely" data-zh="選擇「隨機」作為核心 UX 機制：把選擇的負擔交給 App，從根本解除使用者的決策壓力">Chose randomness as the UX mechanic: hands the decision to the app, removing the burden from the user entirely</li>
-<li data-en="Designed preference settings as lightweight filters rather than rigid rules, preserving the feel of spontaneity" data-zh="將偏好設定設計成輕量篩選而非硬性規則，保留使用上的隨機感與彈性">Designed preference settings as lightweight filters rather than rigid rules, preserving the feel of spontaneity</li>
-</ul>
-</div>
-<div class="case-section">
-<div class="case-section-title" data-en="Interactive Prototype" data-zh="互動原型">Interactive Prototype</div>
-<div style="border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; background: #EBEDF1;">
-<iframe src="whats-for-dinner.html" width="100%" height="680" style="border: none; display: block;" title="What's for Dinner — Interactive Prototype"></iframe>
-</div>
-<p style="font-size: 0.78rem; color: var(--muted); margin-top: 0.6rem; font-style: italic;" data-en="Built with vibe coding — AI-assisted prototyping driven by product thinking." data-zh="以 Vibe Coding 方式建構——由產品思維驅動的 AI 輔助原型。">Built with vibe coding — AI-assisted prototyping driven by product thinking.</p>
-</div>
+<!-- END TABS -->
 </div>
 </div>
 </div>
@@ -1046,7 +1109,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.08 });
 
 document.querySelectorAll('section > *:not(.process-steps)').forEach(el => {
-  if (!el.classList.contains('fade-up')) {
+  if (!el.classList.contains('fade-up') && !el.classList.contains('vc-tab-panel')) {
     el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
     el.style.transition = 'opacity 0.65s ease, transform 0.65s ease';
@@ -1059,6 +1122,23 @@ document.querySelectorAll('.case-item, .exp-item, .skill-card, .stat-card, .proc
   el.style.transform = 'translateY(20px)';
   el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
   observer.observe(el);
+});
+
+// Vibe Coding tabs
+document.querySelectorAll('.vc-tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tabId = btn.dataset.tab;
+    document.querySelectorAll('.vc-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.vc-tab-panel').forEach(p => {
+      p.classList.remove('active');
+    });
+    btn.classList.add('active');
+    const panel = document.getElementById(tabId);
+    panel.classList.add('active');
+    // ensure panel is visible regardless of scroll observer
+    panel.style.opacity = '1';
+    panel.style.transform = 'none';
+  });
 });
 </script>
 </body>
