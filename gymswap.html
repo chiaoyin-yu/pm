@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GymSwap · 健身替代方案</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Helvetica Neue', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  background: #fff;
+  color: #111;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+nav {
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f0f0;
+}
+nav a { font-size: 0.75rem; color: #999; text-decoration: none; letter-spacing: 0.05em; }
+nav a:hover { color: #111; }
+.nav-title { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.03em; }
+
+main {
+  flex: 1;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem 6rem;
+  width: 100%;
+}
+
+.headline {
+  font-size: clamp(2rem, 8vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+.subline {
+  font-size: 0.85rem;
+  color: #999;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+/* ── STEP LABELS ── */
+.step-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #bbb;
+  margin-bottom: 0.6rem;
+}
+
+/* ── MUSCLE CHIPS ── */
+.muscle-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 2rem;
+}
+.mchip {
+  font-size: 0.8rem;
+  font-family: inherit;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 999px;
+  cursor: pointer;
+  background: #fff;
+  color: #666;
+  transition: all 0.15s;
+  user-select: none;
+}
+.mchip:hover { border-color: #aaa; color: #111; }
+.mchip.on { background: #111; border-color: #111; color: #fff; }
+
+/* ── EQUIPMENT INPUT ── */
+.eq-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+.eq-input {
+  flex: 1;
+  font-size: 0.88rem;
+  font-family: inherit;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+  color: #111;
+  background: #fff;
+  transition: border-color 0.15s;
+}
+.eq-input:focus { border-color: #111; }
+.eq-input::placeholder { color: #ccc; }
+
+.btn-find {
+  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: 600;
+  padding: 0.7rem 1.3rem;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+  letter-spacing: 0.02em;
+}
+.btn-find:hover { background: #333; }
+.btn-find:disabled { background: #ccc; cursor: default; }
+
+/* ── LOADING ── */
+.loading {
+  display: none;
+  font-size: 0.82rem;
+  color: #bbb;
+  padding: 1.5rem 0;
+  letter-spacing: 0.04em;
+}
+.loading.visible { display: block; }
+.dot { animation: blink 1.2s infinite; }
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink {
+  0%,80%,100% { opacity: 0.2; }
+  40% { opacity: 1; }
+}
+
+/* ── RESULTS ── */
+.results {
+  display: none;
+  border-top: 2px solid #111;
+  padding-top: 2rem;
+}
+.results.visible { display: block; }
+
+.results-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #bbb;
+  margin-bottom: 1.25rem;
+}
+
+/* single alt card */
+.alt-card {
+  border: 1px solid #ebebeb;
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 0.75rem;
+  transition: border-color 0.15s;
+}
+.alt-card:hover { border-color: #ccc; }
+
+.alt-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.alt-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.alt-tag {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #999;
+  border: 1px solid #e8e8e8;
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  white-space: nowrap;
+}
+
+.alt-muscle {
+  font-size: 0.75rem;
+  color: #999;
+  margin-bottom: 0.75rem;
+}
+.alt-muscle strong { color: #555; }
+
+.alt-tips {
+  font-size: 0.82rem;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+.alt-tips li {
+  padding-left: 1em;
+  position: relative;
+  margin-bottom: 0.2rem;
+}
+.alt-tips li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: #bbb;
+}
+
+.btn-video {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-family: inherit;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #fff;
+  color: #666;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.02em;
+}
+.btn-video:hover { border-color: #aaa; color: #111; }
+.btn-video svg { flex-shrink: 0; }
+
+/* reset */
+.btn-reset {
+  display: block;
+  margin-top: 1.75rem;
+  font-size: 0.78rem;
+  font-family: inherit;
+  color: #bbb;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  letter-spacing: 0.03em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.btn-reset:hover { color: #666; }
+
+footer {
+  padding: 1.5rem 2rem;
+  font-size: 0.7rem;
+  color: #ddd;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 480px) {
+  main { padding: 2.5rem 1.25rem 5rem; }
+  nav { padding: 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">← 返回作品集</a>
+  <span class="nav-title">GymSwap</span>
+</nav>
+
+<main>
+  <h1 class="headline">器材被佔了？</h1>
+  <p class="subline">告訴我你要練哪個部位、哪個器材被佔，<br>我幫你找替代方案。</p>
+
+  <!-- STEP 1 -->
+  <p class="step-label">你今天要練</p>
+  <div class="muscle-chips" id="muscle-chips">
+    <button class="mchip" data-val="胸">胸</button>
+    <button class="mchip" data-val="背">背</button>
+    <button class="mchip" data-val="肩">肩</button>
+    <button class="mchip" data-val="手臂（二頭）">二頭</button>
+    <button class="mchip" data-val="手臂（三頭）">三頭</button>
+    <button class="mchip" data-val="核心">核心</button>
+    <button class="mchip" data-val="腿（股四頭）">腿前側</button>
+    <button class="mchip" data-val="腿（腿後腱）">腿後側</button>
+    <button class="mchip" data-val="臀">臀</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <p class="step-label">被佔或不熟的器材</p>
+  <div class="eq-row">
+    <input class="eq-input" type="text" id="eq-input"
+      placeholder="例如：滑輪下拉機、史密斯機、飛鳥機…" autocomplete="off" />
+    <button class="btn-find" id="btn-find" onclick="findAlts()">找替代</button>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading" id="loading">
+    找替代方案中<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <p class="results-eyebrow" id="results-eyebrow"></p>
+    <div id="alt-cards"></div>
+    <button class="btn-reset" onclick="resetAll()">重新查詢</button>
+  </div>
+</main>
+
+<footer>GymSwap · Case 5 · Sylvia Yu</footer>
+
+<script>
+const muscleChips = document.querySelectorAll('.mchip');
+let selectedMuscles = new Set();
+
+muscleChips.forEach(chip => {
+  chip.addEventListener('click', () => {
+    const val = chip.dataset.val;
+    if (selectedMuscles.has(val)) {
+      selectedMuscles.delete(val);
+      chip.classList.remove('on');
+    } else {
+      selectedMuscles.add(val);
+      chip.classList.add('on');
+    }
+  });
+});
+
+document.getElementById('eq-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') findAlts();
+});
+
+async function findAlts() {
+  const muscles = [...selectedMuscles];
+  const equipment = document.getElementById('eq-input').value.trim();
+
+  if (muscles.length === 0 && !equipment) {
+    alert('請選擇部位或輸入器材名稱');
+    return;
+  }
+
+  const btn = document.getElementById('btn-find');
+  btn.disabled = true;
+  document.getElementById('loading').classList.add('visible');
+  document.getElementById('results').classList.remove('visible');
+
+  const muscleText = muscles.length > 0 ? `目標部位：${muscles.join('、')}` : '';
+  const eqText = equipment ? `被佔或不熟的器材：${equipment}` : '';
+
+  const prompt = `你是健身房重訓專家，專門幫使用者在器材被佔時找替代動作。所有建議必須是真實的健身房重訓動作。
+
+${muscleText}
+${eqText}
+
+重要限制：
+- 只推薦健身房重訓動作（例如：啞鈴側平舉、繩索面拉、坐姿肩推、俯身側平舉等）
+- 不可以推薦按摩、瑜珈、伸展、日常生活動作
+- 器材必須是健身房常見設備（啞鈴、槓鈴、繩索機、史密斯機、各式座椅訓練機等）
+- 「飛鳥」在健身是指胸部或肩部的飛鳥動作，不是其他意思
+- 動作名稱要清楚具體（例如「啞鈴側平舉」而非只說「側平舉」）
+
+請給 2–3 個替代方案：
+
+每個方案必須包含：
+- name：動作名稱（中文，要具體）
+- type：「器材」或「徒手」
+- muscle：主要訓練肌群（一句話，20字以內）
+- tips：動作要點，3條，每條15字以內
+- youtube：用於 YouTube 搜尋的關鍵字（繁體中文，例如「啞鈴側平舉 正確姿勢」）
+
+只回傳 JSON array，不要其他文字：
+[{"name":"","type":"","muscle":"","tips":["","",""],"youtube":""}]`;
+
+  try {
+    const res = await fetch('https://gymswap.banayuyin.workers.dev/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = (data.content || []).map(b => b.text || '').join('').replace(/```json|```/g, '').trim();
+    const alts = JSON.parse(text);
+    renderResults(alts, muscles, equipment);
+  } catch {
+    renderResults([
+      {
+        name: '坐姿划船',
+        type: '器材',
+        muscle: '主練背闊肌、菱形肌，輔助後三角肌',
+        tips: ['坐直，不要靠背', '肩胛先下沉再拉', '感受背部夾緊後停頓一秒'],
+        youtube: '坐姿划船 正確姿勢'
+      },
+      {
+        name: '徒手引體向上',
+        type: '徒手',
+        muscle: '主練背闊肌，同時訓練核心穩定',
+        tips: ['握距略比肩寬', '往上時肘往下帶', '下放要慢，控制離心'],
+        youtube: '引體向上 新手教學'
+      }
+    ], muscles, equipment);
+  }
+
+  document.getElementById('loading').classList.remove('visible');
+  btn.disabled = false;
+}
+
+function renderResults(alts, muscles, equipment) {
+  const eyebrow = [
+    muscles.length > 0 ? muscles.join('、') : '',
+    equipment ? `${equipment} 的替代方案` : '替代方案'
+  ].filter(Boolean).join(' · ');
+
+  document.getElementById('results-eyebrow').textContent = eyebrow;
+
+  const container = document.getElementById('alt-cards');
+  container.innerHTML = '';
+
+  alts.forEach(alt => {
+    const ytUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(alt.youtube || alt.name + ' 教學')}`;
+    const tipsHTML = (alt.tips || []).map(t => `<li>${t}</li>`).join('');
+
+    const card = document.createElement('div');
+    card.className = 'alt-card';
+    card.innerHTML = `
+      <div class="alt-header">
+        <span class="alt-name">${alt.name}</span>
+        <span class="alt-tag">${alt.type || '器材'}</span>
+      </div>
+      <p class="alt-muscle"><strong>訓練部位</strong>　${alt.muscle}</p>
+      <ul class="alt-tips">${tipsHTML}</ul>
+      <a class="btn-video" href="${ytUrl}" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        搜尋示範影片
+      </a>
+    `;
+    container.appendChild(card);
+  });
+
+  document.getElementById('results').classList.add('visible');
+}
+
+function resetAll() {
+  selectedMuscles.clear();
+  muscleChips.forEach(c => c.classList.remove('on'));
+  document.getElementById('eq-input').value = '';
+  document.getElementById('results').classList.remove('visible');
+  document.getElementById('alt-cards').innerHTML = '';
+}
+</script>
+</body>
+</html>
